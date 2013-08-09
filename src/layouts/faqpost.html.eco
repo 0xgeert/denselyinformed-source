@@ -1,0 +1,19 @@
+---
+layout: default
+---
+
+<div class="shadow">&nbsp;</div>
+<article>
+	<div class="row">
+		<div class="columns faqpost-content">
+
+			<h1><%= @document.title %></h1>
+			
+
+			<%- @content %>
+			<p>
+				<a href="/pages/faq">&#171; Back to all questions </a>
+			</p>
+		</div>
+	</div>
+</article>
