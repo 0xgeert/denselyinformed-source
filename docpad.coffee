@@ -1,3 +1,18 @@
+scriptToPack_zepto =  [
+	"src/documents/scripts/modernizr.js",
+	"node_modules/foundation/js/vendor/zepto.js",
+	"node_modules/foundation/js/foundation/foundation.js",
+	"node_modules/foundation/js/foundation/foundation.topbar.js"
+]
+
+scriptToPack_jquery = [
+	"src/documents/scripts/modernizr.js",
+	"node_modules/foundation/js/vendor/jquery.js",
+	"node_modules/foundation/js/foundation/foundation.js",
+	"node_modules/foundation/js/foundation/foundation.topbar.js"
+]
+
+
 # The DocPad Configuration File
 # It is simply a CoffeeScript Object which is parsed by CSON
 docpadConfig = {
@@ -52,6 +67,20 @@ docpadConfig = {
 				"/scripts/app.js"
 			]
 
+		buildstep:
+			scriptToPack_zepto: scriptToPack_zepto
+
+			scriptToPack_jquery: scriptToPack_jquery
+
+			scriptToPack_zepto_flattened: do () ->
+				_ = require 'lodash'
+				outarr =  []
+				outPrefix = "/scripts"
+				_.each scriptToPack_zepto, (path) ->
+					outarr.push outPrefix + path.substring(path.lastIndexOf("/"))
+				outarr
+
+
 
 
 		# -----------------------------
@@ -77,6 +106,10 @@ docpadConfig = {
 		getPreparedKeywords: ->
 			# Merge the document keywords with the site keywords
 			@site.keywords.concat(@document.keywords or []).join(', ')
+
+		envIsDev: -> 
+			# TODO: change based on https://github.com/bevry/docpad/issues/592
+			return docpad.getConfig().env == "development" || docpad.getConfig().env == undefined
 
 
 	# =================================
@@ -143,13 +176,31 @@ docpadConfig = {
 		# Used to minify our assets with grunt
 		writeAfter: (opts,next) ->
 
+			docpad = @docpad
+			latestConfig = docpad.getConfig()
+
+
+			if !latestConfig.templateData.envIsDev()
+
+				#minify js for static or production environments
+				command = [
+					"grunt", 
+					'buildJS:static', 
+					"--scriptToPack_zepto=" + JSON.stringify(latestConfig.templateData.buildstep.scriptToPack_zepto),
+					"--scriptToPack_jquery=" + JSON.stringify(latestConfig.templateData.buildstep.scriptToPack_jquery)
+				]
+				
+			else 
+
+				#copy js files verbatim for development environment
+				command = [
+					"grunt", 
+					'buildJS:development', 
+					"--scriptToPack_zepto=" + JSON.stringify(latestConfig.templateData.buildstep.scriptToPack_zepto)
+				]
+			
 			# Prepare
 			safeps = require('safeps')
-			pathUtil = require('path')
-			docpad = @docpad
-			rootPath = docpad.getConfig().rootPath
-
-			command = ["grunt", 'uglify']
 			safeps.spawn(command, {safe:false, output:true}, next)
 
 			# Chain

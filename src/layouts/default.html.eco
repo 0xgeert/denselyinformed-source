@@ -81,21 +81,19 @@
 		</div>
 	</footer>
 	<!-- Scripts -->
+	
+	<% if @envIsDev(): %>
+		<% for scriptsrc in @buildstep.scriptToPack_zepto_flattened: %>
+			<script src=<%= scriptsrc %>></script>
+		<% end %>
+	<% else: %>
+	  	<script>
+		  document.write('<script src=/scripts/'
+		    + ('__proto__' in {} ? 'zepto' : 'jquery')
+		    + '-pack.min.js><\/script>');
+		</script>
+	<% end %>
 
-	<!-- Depending on browser support load the zepto-pack or the jquery-pack. 
-		As configured (see grunt-config.json) this includes: 
-		 - modernizr, 
-		 - zepto OR jquery
-		 - foundation.topbar.js
-
-		condition jquery or zepto adapted from: 
-		http://foundation.zurb.com/docs/javascript.html
-	-->
-	<script>
-	  document.write('<script src=/scripts/'
-	    + ('__proto__' in {} ? 'zepto' : 'jquery')
-	    + '-pack.min.js><\/script>');
-	</script>
 	<script>
 		//init all foundation plugins. 
 		//Currently this only includes foundation.topbar.js
