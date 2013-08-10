@@ -24,6 +24,10 @@ h1,h2,h3,h4,h5,h6{
 
 ////////////
 // LAYOUT
+// 
+// 
+@include robust-word-wrap;
+
 #layout{
 	//makes sure body-height: 100% doesn't show vertical scrollbar when not needed
 	overflow: auto; 
@@ -37,7 +41,7 @@ section{
 	display:none;
 }
 
-$fixedOnSmallScreen: true; //fix topmenu on small screen as well, defaults to false
+//$fixedOnSmallScreen: true; //fix topmenu on small screen as well, defaults to false
 @include top-menu-fixed;
 @include top-menu-shadow;
 
