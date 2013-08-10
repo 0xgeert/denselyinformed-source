@@ -28,25 +28,29 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .container.top-bar{
-	z-index: 3;
+	z-index: 4; //higher than
 }
 
-#main > .shadow{
+//a separate shadow below the topnav
+//It's separated bc. of the z-stacking .
+//i.e: high to low: top nav > header > shadow > content
+//This allows the shadow to dissapear under the 'header'
+.shadow{
 	width: 100%;
 	z-index: 2;
 	margin-top: -9px;
 	height: 10px;
 	border-bottom: solid 1px #999;
 	@include box-shadow(0px 1px 6px #bbb);
+	@media #{$small} {
+		position:fixed; 
+	}
 }
 
 //fix the top menu on larger screens
 @media #{$small} {
 	body{
 		padding-top: $menuHeight;
-	}
-	#main > .shadow{
-		position:fixed; 
 	}
 	.container.top-bar{
 		margin-top:  -$menuHeight;
@@ -60,8 +64,8 @@ h1,h2,h3,h4,h5,h6{
 	position: relative;
 }
 header{
-	
-	margin-top: -1px; //overlap the boder of navigation menu above if they are stacked together
+	position: relative;
+	z-index: 3; //overlap shadow at bottom of nav
 	padding: 1.5em 0;
 	background: $backCol;
 

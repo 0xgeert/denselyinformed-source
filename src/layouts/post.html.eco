@@ -2,7 +2,6 @@
 layout: default
 ---
 
-<div class="shadow">&nbsp;</div>
 <article >
 	<div class="row">
 		<div class="columns post-content">
@@ -11,7 +10,6 @@ layout: default
 		</div>
 	</div>
 </article>
-
 
 <div class="row">
 	<% if  @document.relatedDocuments and @document.relatedDocuments.length: %>
