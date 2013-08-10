@@ -31,25 +31,44 @@
  * Mixin that fixes top menu
  * @type {Boolean}
  */
+
+//set to true if you also want a fixed header on a small screen
+$fixedOnSmallScreen: false !default;
+
 $menufixed: false;
 @mixin top-menu-fixed(){
+  
   $menufixed: true;
   .container.top-bar{
     z-index: 4; //higher than .shadow and header
   }
   //fix the top menu on larger screens
   @media #{$small} {
-    body{
-      padding-top: $menuHeight;
-    }
-    .container.top-bar{
-      margin-top:  -$menuHeight;
-      width: 100%;
-      position: fixed;
-      background-color: white;
-    }
+    @include _fix-menu;
+  }
+
+  @if $fixedOnSmallScreen{
+    @include _fix-menu;
   }
 }
+
+@mixin _fix-menu(){
+  body{
+    padding-top: $menuHeight;
+  }
+  .container.top-bar{
+    margin-top:  -$menuHeight;
+    width: 100%;
+    position: fixed;
+    background-color: white;
+  }
+}
+
+@mixin _shadow_styles(){
+  border-bottom: solid 1px #999;
+  @include box-shadow(0px 1px 6px #bbb);
+}
+
 
 /**
  * Nice shadow effect, which sits under 'header' if that exists.
@@ -63,21 +82,34 @@ $menufixed: false;
   //i.e: high to low: top nav > header > shadow > content
   //This allows the shadow to dissapear under the 'header'
   //
+
   .shadow{
     display: block;
     width: 100%;
     margin-top: -9px;
     height: 10px;
     z-index:2;
-    border-bottom: solid 1px #999;
-    @include box-shadow(0px 1px 6px #bbb);
+    @include _shadow_styles;
     @media #{$small} {
       @if $menufixed {
         position:fixed;
       } 
     }
   }
-
+  
+  //if fixing menu on small screen as well...
+  @if $fixedOnSmallScreen and  $menufixed{
+    //... put shadow on menu itself when it's expanded
+    .container.top-bar.expanded{
+      @include _shadow_styles;
+    }
+    //.. and fix the shadow element
+    .shadow{
+      position:fixed;
+    }
+  }
+  
+  // the header is allowed to scroll OVER the shadow which is a little nicer (in case the header has a backgorund color that is)
   header{
     position: relative;
     z-index: 3; //overlap shadow at bottom of nav

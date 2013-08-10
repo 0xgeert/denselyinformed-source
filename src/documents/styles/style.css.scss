@@ -37,6 +37,7 @@ section{
 	display:none;
 }
 
+$fixedOnSmallScreen: true; //fix topmenu on small screen as well, defaults to false
 @include top-menu-fixed;
 @include top-menu-shadow;
 
