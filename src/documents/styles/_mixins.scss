@@ -25,3 +25,61 @@
     clear: both;
     position: relative;
     height: $footer-height; } }
+
+
+/**
+ * Mixin that fixes top menu
+ * @type {Boolean}
+ */
+$menufixed: false;
+@mixin top-menu-fixed(){
+  $menufixed: true;
+  .container.top-bar{
+    z-index: 3; //higher than .shadow and header
+  }
+  //fix the top menu on larger screens
+  @media #{$small} {
+    body{
+      padding-top: $menuHeight;
+    }
+    .container.top-bar{
+      margin-top:  -$menuHeight;
+      width: 100%;
+      position: fixed;
+      background-color: white;
+    }
+  }
+}
+
+/**
+ * Nice shadow effect, which sits under 'header' if that exists.
+ * .shadow should be the next sibling after  .container.top-bar
+ * if .container.top-bar is fixed (using mixin top-menu-fixed) tthis mixin will behave appropriately by fixing as well
+ */
+@mixin top-menu-shadow(){
+
+  //a separate shadow below the topnav
+  //It's separated bc. of the z-stacking .
+  //i.e: high to low: top nav > header > shadow > content
+  //This allows the shadow to dissapear under the 'header'
+  //
+  .shadow{
+    display: block;
+    width: 100%;
+    margin-top: -9px;
+    height: 10px;
+    border-bottom: solid 1px #999;
+    @include box-shadow(0px 1px 6px #bbb);
+    @media #{$small} {
+      @if $menufixed {
+        position:fixed;
+      } 
+    }
+  }
+
+  header{
+    position: relative;
+    z-index: 2; //overlap shadow at bottom of nav
+    margin-top: -1px; //overlap for shadow on small devices ( in which case position not fixed)
+  }
+}

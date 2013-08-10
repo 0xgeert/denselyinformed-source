@@ -9,12 +9,6 @@
 //See: http://compass-style.org/reference/compass/layout/sticky_footer/
 @include sticky-footer(6em, "#layout", "#layout_footer", "#footer");
 
-////////////
-// LAYOUT
-#layout{
-	//makes sure body-height: 100% doesn't show vertical scrollbar when not needed
-	overflow: auto; 
-}
 
 ////////////
 //COMPONENTS
@@ -27,48 +21,28 @@ h1,h2,h3,h4,h5,h6{
 	@include transition(all 0.2s ease-in-out);
 }
 
-.container.top-bar{
-	z-index: 4; //higher than
+
+////////////
+// LAYOUT
+#layout{
+	//makes sure body-height: 100% doesn't show vertical scrollbar when not needed
+	overflow: auto; 
 }
 
-//a separate shadow below the topnav
-//It's separated bc. of the z-stacking .
-//i.e: high to low: top nav > header > shadow > content
-//This allows the shadow to dissapear under the 'header'
+section{
+	margin-bottom: 1.5em;
+}
+
 .shadow{
-	width: 100%;
-	z-index: 2;
-	margin-top: -9px;
-	height: 10px;
-	border-bottom: solid 1px #999;
-	@include box-shadow(0px 1px 6px #bbb);
-	@media #{$small} {
-		position:fixed; 
-	}
+	display:none;
 }
 
-//fix the top menu on larger screens
-@media #{$small} {
-	body{
-		padding-top: $menuHeight;
-	}
-	.container.top-bar{
-		margin-top:  -$menuHeight;
-		width: 100%;
-		position: fixed;
-		background-color: white;
-	}
-}
+@include top-menu-fixed;
+@include top-menu-shadow;
 
-#main{
-	position: relative;
-}
 header{
-	position: relative;
-	z-index: 3; //overlap shadow at bottom of nav
 	padding: 1.5em 0;
 	background: $backCol;
-
 	&.tall{
 		padding: 4.5em 0;
    		@include box-shadow(inset 0 -50px 100px $backColDarkGrad);
@@ -103,9 +77,6 @@ header{
 	margin-bottom: 2em;
 }
 
-section{
-	margin-bottom: 1.5em;
-}
 
 
 #footer {
