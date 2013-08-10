@@ -45,6 +45,12 @@ section{
 @include top-menu-fixed;
 @include top-menu-shadow;
 
+
+//menu items on expanded menu (small screen) get border
+.expanded .top-bar-section ul  a{
+	border-top: 1px solid #ddd;
+}
+
 header{
 	padding: 1.5em 0;
 	background: $backCol;
@@ -81,8 +87,6 @@ header{
 	}
 	margin-bottom: 2em;
 }
-
-
 
 #footer {
 	padding-top: 1em;
