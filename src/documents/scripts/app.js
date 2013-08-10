@@ -4,7 +4,9 @@
  * @return {[type]} [description]
  */
 $(function(){
-	
+
+	//animate to saturated color
+	$("#hero").addClass("intense");
 	
 });
 

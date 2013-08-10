@@ -13,7 +13,11 @@
 ////////////
 //COMPONENTS
 
-$backCol: #13A3C7;
+$backCol: desaturate(adjust_hue(#13A3C7, 15deg), 40%);
+
+$backColDesat: desaturate($backCol, 15%);
+$backColSat: saturate($backCol, 15%);
+
 $backColDarkGrad: darken($backCol, 15%);
 $colDarken: darken($backCol, 20%);
 
@@ -33,6 +37,9 @@ h1,h2,h3,h4,h5,h6{
 	overflow: auto; 
 }
 
+#main{
+	position: relative;
+}
 section{
 	margin-bottom: 1.5em;
 }
@@ -51,24 +58,42 @@ section{
 	border-top: 1px solid #ddd;
 }
 
+//generic header (independent of content)
 header{
 	padding: 1.5em 0;
 	background: $backCol;
+	
+	&#hero{
+		background: $backColDesat;
+		//construct to allow animation of background
+		@include transition(background-color 3s ease-in-out);
+		&.intense{
+			background: $backColSat;
+		}
+	}
 	&.tall{
 		padding: 4.5em 0;
    		@include box-shadow(inset 0 -50px 100px $backColDarkGrad);
-   		
    		@media #{$small} {
-			padding: 7.5em 0;
+			//padding: 7.5em 0;
 			@include transition(all 0.2s ease-in-out);
    		}
 	}
+	
 	h1{
+		display: inline-block; 
+		float: left;
 		margin: 0;
 		color: white;
 		@media #{$small} {
 			font-size: 54px;
 		}
+		text-shadow:1px 1px 1px rgba(0, 0, 0, 0.3);
+	}
+	h3{
+		float: left;
+		display: inline-block;
+		clear: left;
 	}
 	h1 + h3{
 		margin: 0 !important;
@@ -77,6 +102,7 @@ header{
 		margin: 0;
 		font-family: 'Maven Pro';
 		color: $colDarken;
+		text-shadow:none;
 	}
 	a{
 		color: $colDarken;
@@ -87,6 +113,9 @@ header{
 	}
 	margin-bottom: 2em;
 }
+
+// @include to-white-hero;
+// @include moving-hero(-400px, 1s, 0.5s, 1s);
 
 #footer {
 	padding-top: 1em;
