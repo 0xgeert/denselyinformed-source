@@ -35,7 +35,12 @@
 	
 	<!-- Styles -->
 	<link href='http://fonts.googleapis.com/css?family=Montserrat|Maven+Pro' rel='stylesheet' type='text/css'>
-	<%- @getBlock('styles').add(@site.styles).toHTML() %>
+
+	<% if @envIsDev(): %>
+		<%- @getBlock('styles').add(@site.styles).toHTML() %>
+	<% else: %>
+	  	<%- @getBlock('styles').add(@site.stylesPacked).toHTML() %>
+	<% end %>
 
 </head>
 <body >

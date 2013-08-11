@@ -6,6 +6,8 @@ layout: page
 pageOrder: 2
 includenInNavs: []
 navtitle: FAQ
+includeHero: true
+referencesOthers: true
 ```
 
 <ul>

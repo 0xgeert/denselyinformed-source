@@ -5,6 +5,8 @@ layout: page
 pageOrder: 3
 includenInNavs: ['main']
 navtitle: Blog
+includeHero: true
+referencesOthers: true
 ---
 
 <nav class="linklist">

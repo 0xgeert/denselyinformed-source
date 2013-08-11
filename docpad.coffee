@@ -26,6 +26,8 @@ docpadConfig = {
 
 		# Specify some site properties
 		site:
+
+
 			# The production url of our website
 			url: "http://website.com"
 
@@ -56,11 +58,14 @@ docpadConfig = {
 			email: "your@email.com"
 
 			# Styles
+			# NOTE: on big sites where css is considerable different from page to page, 
 			styles: [
-				"/styles/zurb-foundation.css"
+				"/styles/zurb-foundation.css",
 				"/styles/style.css",
 				"/styles/highlightjs-github.css"
 			]
+
+			stylesPacked: "/styles/combined.min.css"
 
 			# Scripts
 			scripts: [
@@ -172,6 +177,17 @@ docpadConfig = {
 				else
 					next()
 
+
+		# https://github.com/bevry/docpad/issues/594
+		# renderBefore: (opts,next) -> 
+		# 	col = opts.collection
+		# 	col.models.forEach (m) -> 
+		# 		attribs = m.meta.attributes
+		# 		if(!attribs.url && attribs.title && attribs.layout.trim()=="post")
+		# 			attribs.url = "/posts/" + attribs.title.replace(/\ /g,'-')
+		# 			console.log attribs.url
+		# 	next()
+
 		# Write After
 		# Used to minify our assets with grunt
 		writeAfter: (opts,next) ->
@@ -185,9 +201,11 @@ docpadConfig = {
 				#minify js for static or production environments
 				command = [
 					"grunt", 
-					'buildJS:static', 
+					'build:static', 
 					"--scriptToPack_zepto=" + JSON.stringify(latestConfig.templateData.buildstep.scriptToPack_zepto),
-					"--scriptToPack_jquery=" + JSON.stringify(latestConfig.templateData.buildstep.scriptToPack_jquery)
+					"--scriptToPack_jquery=" + JSON.stringify(latestConfig.templateData.buildstep.scriptToPack_jquery),
+					"--stylesToPack=" + JSON.stringify(latestConfig.templateData.site.styles),
+					"--stylesPacked=" + latestConfig.templateData.site.stylesPacked
 				]
 				
 			else 
@@ -195,7 +213,7 @@ docpadConfig = {
 				#copy js files verbatim for development environment
 				command = [
 					"grunt", 
-					'buildJS:development', 
+					'build:development', 
 					"--scriptToPack_zepto=" + JSON.stringify(latestConfig.templateData.buildstep.scriptToPack_zepto)
 				]
 			

@@ -88,6 +88,10 @@ $menufixed: false;
  * Nice shadow effect, which sits under 'header' if that exists.
  * .shadow should be the next sibling after  .container.top-bar
  * if .container.top-bar is fixed (using mixin top-menu-fixed) tthis mixin will behave appropriately by fixing as well
+ * can give nice effect because it enables content to go OVER shadow but UNDER fixed menu
+ * hwhich is clear when e.g: putting a hero directly underneath the topmenu. 
+ * In that case more often than not we don't want the shadow to show so it's exactly rendered under
+ * the hero.
  */
 @mixin top-menu-shadow(){
 

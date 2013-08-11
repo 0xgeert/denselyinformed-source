@@ -44,14 +44,23 @@ section{
 	margin-bottom: 1.5em;
 }
 
+
+
+//$fixedOnSmallScreen: true; //fix topmenu on small screen as well, defaults to false
+//@include top-menu-fixed;
+
+/* used together with mixin top-menu-shadow which shows shadow
+underneath topmenu. */
 .shadow{
 	display:none;
 }
-
-//$fixedOnSmallScreen: true; //fix topmenu on small screen as well, defaults to false
-@include top-menu-fixed;
 @include top-menu-shadow;
-
+.shadow{ //overwrite default styling.
+	border: 0 none;
+	height: 3px; 
+	margin-top: 0;
+	background: $backCol; //$backColDesat;
+}
 
 //menu items on expanded menu (small screen) get border
 .expanded .top-bar-section ul  a{
@@ -142,12 +151,21 @@ header{
 	}
 }
 
-.faqpost-content, .post-content{
+
+.faqpost-content, .post-content, .page-content{
 	max-width: 45em; //ok content width
 	margin-top: 2em;
 }
 
-.post-content{
+//reset margin-top if header specified.
+header + .row{
+	> .page-content{
+		margin-top: 0em;
+	}
+}
+
+
+.post-content, .page-content{
 	font-size: 106% //from 17 to 18 for posts
 }
 
