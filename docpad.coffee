@@ -132,8 +132,19 @@ docpadConfig = {
 			database.findAllLive({relativeOutDirPath: 'pages'}, [pageOrder:1,title:1])
 
 		# All documents with contenttype=posts ordered by date
+		# defaults to 'layout: post'
+		# default to url based on sluggified title if that is set.
+		# 
+		# NOTE: events from http://documentcloud.github.io/backbone/#Collection
 		posts: (database) ->
-			database.findAllLive({relativeOutDirPath: 'posts'}, [date:-1])
+			database.findAllLive({relativeOutDirPath: 'posts'}, [date:-1]).on 'add change:title', (model) ->
+				console.log(model.get('title'))
+				t = model.get('title')
+				if(t)
+					url = "/posts/"  + t.replace(/\ /g,'-')
+					model.addUrl(url).setMetaDefaults({url:url})
+				model.setMetaDefaults({layout:'post'})
+
 
 		# All documents with contenttype=faqs ordered by faqOrder (not required) and title
 		faqs: (database) ->
@@ -178,13 +189,17 @@ docpadConfig = {
 					next()
 
 
-		# https://github.com/bevry/docpad/issues/594
+		# # https://github.com/bevry/docpad/issues/594
 		# renderBefore: (opts,next) -> 
+
+		# 	docpad = @docpad
+		# 	latestConfig = docpad.getConfig()
+
 		# 	col = opts.collection
 		# 	col.models.forEach (m) -> 
 		# 		attribs = m.meta.attributes
 		# 		if(!attribs.url && attribs.title && attribs.layout.trim()=="post")
-		# 			attribs.url = "/posts/" + attribs.title.replace(/\ /g,'-')
+		# 			attribs.url = latestConfig.templateData.getPreparedUrl()
 		# 			console.log attribs.url
 		# 	next()
 

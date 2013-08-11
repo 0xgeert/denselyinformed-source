@@ -1,5 +1,5 @@
 ```
-title: This is a Goodbye Blog Post
+title: This is a Goodbye Blog Post test
 layout: post
 tags: ['dummyTagtoShowHowRelatedPluginMatchesPostsWithTheSameTag']
 ```
