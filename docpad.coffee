@@ -137,13 +137,26 @@ docpadConfig = {
 		# 
 		# NOTE: events from http://documentcloud.github.io/backbone/#Collection
 		posts: (database) ->
-			database.findAllLive({relativeOutDirPath: 'posts'}, [date:-1]).on 'add change:title', (model) ->
-				console.log(model.get('title'))
+			database.findAllLive({relativeOutDirPath: 'posts'}, [date:-1])
+			
+			.on 'add', (model) ->
+				model.setMetaDefaults({layout:'post'})
+			
+			# posts default to the sluggified title
+			.on 'add change:title', (model) ->
 				t = model.get('title')
 				if(t)
 					url = "/posts/"  + t.replace(/\ /g,'-')
-					model.addUrl(url).setMetaDefaults({url:url})
-				model.setMetaDefaults({layout:'post'})
+					model
+						.addUrl(url) #enable link so it doesn't 404
+						.setMetaDefaults({url:url}) #if no explicit url set, if defaults to this url
+			
+			#persist to disk
+			.on 'change:urls', (model) ->
+				
+				#TODO: why is urls an array of arrays?
+				urls = model.get("urls") 
+				console.log(urls)
 
 
 		# All documents with contenttype=faqs ordered by faqOrder (not required) and title
