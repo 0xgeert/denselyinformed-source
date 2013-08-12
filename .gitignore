@@ -1,4 +1,5 @@
 bourbon/
 node_modules/
 out/
+plugins/
 src/files/vendor/twitter-bootstrap
