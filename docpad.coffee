@@ -17,6 +17,10 @@ scriptToPack_jquery = [
 # It is simply a CoffeeScript Object which is parsed by CSON
 docpadConfig = {
 
+	# Skip Unsupported Plugins
+    # Set to `false` to load all plugins whether or not they are compatible with our DocPad version or not
+    skipUnsupportedPlugins: true  # default
+	
 	# =================================
 	# Template Data
 	# These are variables that will be accessible via our templates

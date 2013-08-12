@@ -66,7 +66,6 @@ module.exports = function(grunt) {
           'cssmin:minify'
         ]);
       }else if(env === "development"){
-        console.log("ASDASDASDASD");
         grunt.task.run(['copy:jsfiles_dev']);
       }else{
          grunt.warn("env must be defined with 'development' or 'static' i.e: 'build:development' or 'build:static'");
