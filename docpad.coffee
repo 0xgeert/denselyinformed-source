@@ -20,7 +20,7 @@ docpadConfig = {
 	# Skip Unsupported Plugins
     # Set to `false` to load all plugins whether or not they are compatible with our DocPad version or not
     skipUnsupportedPlugins: true  # default
-	
+
 	# =================================
 	# Template Data
 	# These are variables that will be accessible via our templates
@@ -141,26 +141,29 @@ docpadConfig = {
 		# 
 		# NOTE: events from http://documentcloud.github.io/backbone/#Collection
 		posts: (database) ->
-			database.findAllLive({relativeOutDirPath: 'posts'}, [date:-1])
+
+			# console.log(docpad);
+			# console.log("SAME: "  + (database == docpad.getCollection('html')))
+			# database.findAllLive({relativeOutDirPath: 'posts'}, [date:-1])
 			
+			database.findAllLive({relativeOutDirPath: 'posts'}, [date:-1])
 			.on 'add', (model) ->
 				model.setMetaDefaults({layout:'post'})
 			
 			# posts default to the sluggified title
+			# NOTE: event for removal of explicit url not implemented (ideally we should default to 
+			# url which may be stored in meta.urlFromTitle) since docpad doesn't 
+			# trigger these events. On next generation of site all resolves ok again.
 			.on 'add change:title', (model) ->
 				t = model.get('title')
 				if(t)
 					url = "/posts/"  + t.replace(/\ /g,'-')
-					model
-						.addUrl(url) #enable link so it doesn't 404
-						.setMetaDefaults({url:url}) #if no explicit url set, if defaults to this url
-			
-			#persist to disk
-			.on 'change:urls', (model) ->
-				
-				#TODO: why is urls an array of arrays?
-				urls = model.get("urls") 
-				console.log(urls)
+
+					explicit_url = model.getMeta().get("url")
+					if explicit_url
+						model.addUrl(url)
+					else
+						model.setUrl(url).setMetaDefaults(url:url)
 
 
 		# All documents with contenttype=faqs ordered by faqOrder (not required) and title
@@ -204,21 +207,6 @@ docpadConfig = {
 					res.redirect(newUrl+req.url, 301)
 				else
 					next()
-
-
-		# # https://github.com/bevry/docpad/issues/594
-		# renderBefore: (opts,next) -> 
-
-		# 	docpad = @docpad
-		# 	latestConfig = docpad.getConfig()
-
-		# 	col = opts.collection
-		# 	col.models.forEach (m) -> 
-		# 		attribs = m.meta.attributes
-		# 		if(!attribs.url && attribs.title && attribs.layout.trim()=="post")
-		# 			attribs.url = latestConfig.templateData.getPreparedUrl()
-		# 			console.log attribs.url
-		# 	next()
 
 		# Write After
 		# Used to minify our assets with grunt
