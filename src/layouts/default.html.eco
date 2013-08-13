@@ -86,11 +86,9 @@
 		</div>
 	</footer>
 	<!-- Scripts -->
-	
-	
+
 	<% if @envIsDev(): %>
-		<%- @getBlock('scripts').add(@cachebust(@buildstep.scriptToPack_zepto_flattened)).toHTML() %>
-		
+		<%- @getBlock('scripts').add(@cachebust(@buildstep.scriptToPack_zepto_flattened)).toHTML() %>	
 	<% else: %>
 	  	<script>
 		  document.write('<script src=/scripts/'

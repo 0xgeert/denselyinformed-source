@@ -89,10 +89,6 @@ docpadConfig = {
 					outarr.push outPrefix + path.substring(path.lastIndexOf("/"))
 				outarr
 
-
-
-
-
 		# -----------------------------
 		# Helper Functions
 
@@ -142,6 +138,9 @@ docpadConfig = {
 		# ordered by pageOrder (not required) and title
 		pages: (database) ->
 			database.findAllLive({relativeOutDirPath: 'pages'}, [pageOrder:1,title:1])
+			.on 'add', (model) ->
+				model.setMetaDefaults({layout:'page'}) #may be overwritten
+				model.getMeta().set({contenttype:'page'}) #always set to 'page'
 
 		# All documents with contenttype=posts ordered by date
 		# defaults to 'layout: post'
@@ -157,6 +156,7 @@ docpadConfig = {
 			database.findAllLive({relativeOutDirPath: 'posts'}, [date:-1])
 			.on 'add', (model) ->
 				model.setMetaDefaults({layout:'post'})
+				model.getMeta().set({contenttype:'post'})
 			
 			# posts default to the sluggified title
 			# NOTE: event for removal of explicit url not implemented (ideally we should default to 
@@ -177,6 +177,9 @@ docpadConfig = {
 		# All documents with contenttype=faqs ordered by faqOrder (not required) and title
 		faqs: (database) ->
 			database.findAllLive({relativeOutDirPath: 'faq'}, [faqOrder:1,title:1])
+			.on 'add', (model) ->
+				model.setMetaDefaults({layout:'faqpost'})
+				model.getMeta().set({contenttype:'faqpost'})
 
 
 	# =================================
