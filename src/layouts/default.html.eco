@@ -35,11 +35,10 @@
 	
 	<!-- Styles -->
 	<link href='http://fonts.googleapis.com/css?family=Montserrat|Maven+Pro' rel='stylesheet' type='text/css'>
-
 	<% if @envIsDev(): %>
-		<%- @getBlock('styles').add(@site.styles).toHTML() %>
+		<%- @getBlock('styles').add(@cachebust(@site.styles)).toHTML() %>
 	<% else: %>
-	  	<%- @getBlock('styles').add(@site.stylesPacked).toHTML() %>
+	  	<%- @getBlock('styles').add(@cachebust(@site.stylesPacked)).toHTML() %>
 	<% end %>
 
 </head>
@@ -88,15 +87,15 @@
 	</footer>
 	<!-- Scripts -->
 	
+	
 	<% if @envIsDev(): %>
-		<% for scriptsrc in @buildstep.scriptToPack_zepto_flattened: %>
-			<script src=<%= scriptsrc %>></script>
-		<% end %>
+		<%- @getBlock('scripts').add(@cachebust(@buildstep.scriptToPack_zepto_flattened)).toHTML() %>
+		
 	<% else: %>
 	  	<script>
 		  document.write('<script src=/scripts/'
 		    + ('__proto__' in {} ? 'zepto' : 'jquery')
-		    + '-pack.min.js><\/script>');
+		    + '-pack.min.js?'  + <%= @getAssetVersion() %> + '><\/script>');
 		</script>
 	<% end %>
 
@@ -106,6 +105,6 @@
 		//See http://foundation.zurb.com/docs/javascript.html
 		$(document).foundation();
 	</script>
-	<%- @getBlock('scripts').add(@site.scripts).toHTML() %>
+	<%- @getBlock('scripts').add(@cachebust(@site.scripts)).toHTML() %>
 </body>
 </html>

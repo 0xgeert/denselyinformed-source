@@ -42,8 +42,8 @@ docpadConfig = {
 			]
 
 			# The default title of our website
-			title: "Acme"
-			company: "Acme Inc."
+			title: "Clearksykabove"
+			company: "Clear Sky Above"
 
 			# The website description (for SEO)
 			description: """
@@ -92,6 +92,7 @@ docpadConfig = {
 
 
 
+
 		# -----------------------------
 		# Helper Functions
 
@@ -120,6 +121,13 @@ docpadConfig = {
 			# TODO: change based on https://github.com/bevry/docpad/issues/592
 			return docpad.getConfig().env == "development" || docpad.getConfig().env == undefined
 
+
+		getAssetVersion: ->
+			return docpad.getConfig().assetVersion ;
+
+		cachebust: (assets) -> 
+			version =  @getAssetVersion();
+			require("lodash").map(assets, (asset) -> asset + "?" + version)
 
 	# =================================
 	# Collections
@@ -208,13 +216,21 @@ docpadConfig = {
 				else
 					next()
 
+
+		#rough cache busting
+		#NOTE: 
+		#1. version not persisted to disk
+		generateBefore: (opts, next) ->
+			latestConfig = docpad.getConfig() 
+			latestConfig.assetVersion =  ++latestConfig.assetVersion || 1;
+			next();
+
 		# Write After
 		# Used to minify our assets with grunt
 		writeAfter: (opts,next) ->
 
 			docpad = @docpad
 			latestConfig = docpad.getConfig()
-
 
 			if !latestConfig.templateData.envIsDev()
 

@@ -3,4 +3,5 @@ node_modules/
 out/
 plugins/
 untrack/
+v8.log
 src/files/vendor/twitter-bootstrap
