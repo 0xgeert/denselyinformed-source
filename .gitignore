@@ -1,5 +1,6 @@
 bourbon/
 node_modules/
+gists/
 out/
 plugins/
 untrack/

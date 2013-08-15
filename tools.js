@@ -42,12 +42,7 @@ docpadInstance = require('docpad').createInstance(docpadInstanceConfiguration, f
 			throw new err;
 		}
 		_.each(docpadInstance.getCollection('html').models, function(doc){
-
-			console.log("///////////////////////////////////////////");
-			console.log("///////////////////////////////////////////");
-			console.log(_.clone(doc.attributes));
-			console.log("---------------------------------------------");
-			console.log(_.clone(doc.getMeta().attributes));
+			//do stuff
 		})
     });
 });
