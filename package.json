@@ -29,7 +29,6 @@
     "docpad": "~6.49.0",
     "docpad-plugin-coffeescript": "~2.2.2",
     "docpad-plugin-eco": "~2.0.2",
-    "docpad-plugin-marked": "~2.1.1",
     "docpad-plugin-partials": "~2.7.2",
     "docpad-plugin-related": "~2.0.5",
     "docpad-plugin-text": "~2.2.4",
@@ -45,7 +44,8 @@
     "grunt-contrib-cssmin": "~0.6.1",
     "docpad-plugin-cleanurls": "~2.5.0",
     "bal-util": "~2.3.0",
-    "extract-opts": "~2.2.0"
+    "extract-opts": "~2.2.0",
+    "docpad-plugin-marked": "~2.1.1"
   },
   "devDependencies": {
     "docpad-plugin-livereload": "~2.5.1"

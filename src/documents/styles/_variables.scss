@@ -32,6 +32,9 @@ $body-font-family: 'Maven Pro', sans-serif;
 $body-font-weight: 400;
 $body-font-style: normal;
 
+$primary-color: rgb(77, 124, 245);
+$spot-colorA: #41AD1F;
+$anchor-font-color: $primary-color;
 
 // Control whether or not CSS classes come through in the CSS files.
 // NOTE: you notice a lot of foundation assets are not included, since they're not needed for the template. 

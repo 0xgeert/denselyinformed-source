@@ -219,7 +219,6 @@ docpadConfig = {
 				else
 					next()
 
-
 		#rough cache busting
 		#NOTE: 
 		#1. version not persisted to disk

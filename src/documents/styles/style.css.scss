@@ -25,16 +25,20 @@ h1,h2,h3,h4,h5,h6{
 	@include transition(all 0.2s ease-in-out);
 }
 
-
 ////////////
 // LAYOUT
 // 
 // 
 @include robust-word-wrap;
 
+body{
+	color: #333;
+}
+
 #layout{
 	//makes sure body-height: 100% doesn't show vertical scrollbar when not needed
 	overflow: auto; 
+	background: #F8F8F8;
 }
 
 #main{
@@ -44,10 +48,17 @@ section{
 	margin-bottom: 1.5em;
 }
 
+//bigger gutters on largish screens
+@media (min-width: 780px) {
+	.column, .columns{
+		padding-left: 1.875em;
+		padding-right: 1.875em;
+	}
+}
 
 
 //$fixedOnSmallScreen: true; //fix topmenu on small screen as well, defaults to false
-//@include top-menu-fixed;
+@include top-menu-fixed;
 
 /* used together with mixin top-menu-shadow which shows shadow
 underneath topmenu. */
@@ -60,7 +71,7 @@ underneath topmenu. */
 	height: 3px; 
 	margin-top: 0;
 	background: $backCol; //$backColDesat;
-  	@include box-shadow(0px 0px 6px #222);
+  	//@include box-shadow(0px 0px 6px #222);
 }
 
 //menu items on expanded menu (small screen) get border
@@ -85,9 +96,16 @@ header{
 		padding: 4.5em 0;
    		@include box-shadow(inset 0 -50px 100px $backColDarkGrad);
    		@media #{$small} {
-			padding: 7.5em 0;
+			padding: 6.5em 0;
 			@include transition(all 0.2s ease-in-out);
    		}
+	}
+	&.center{
+		h1, h3{
+			display: block; 
+			width: 100%;
+			text-align: center
+		}
 	}
 	
 	
@@ -97,7 +115,7 @@ header{
 		margin: 0;
 		color: white;
 		@media #{$small} {
-			font-size: 54px;
+			font-size: 72px;
 		}
 		text-shadow:1px 1px 1px rgba(0, 0, 0, 0.3);
 	}
@@ -105,13 +123,14 @@ header{
 		float: left;
 		display: inline-block;
 		clear: left;
+		font-weight: 300 !important;
+		font-family: "Open Sans",sans-serif;
 	}
 	h1 + h3{
-		margin: 0 !important;
+		margin-top: 0.3em !important;
 	}
 	h3, .amp{
 		margin: 0;
-		font-family: 'Maven Pro';
 		color: $colDarken;
 		text-shadow:none;
 	}
@@ -129,6 +148,8 @@ header{
 // @include moving-hero(-400px, 1s, 0.5s, 1s);
 
 #footer {
+	font-weight: 400 !important;
+	font-family: "Open Sans",sans-serif;
 	padding-top: 1em;
 	color: lighten($backCol, 10%);
 	background: $backColDarkGrad;
@@ -149,12 +170,13 @@ header{
 			li{
 				float: right
 			}
-   		}
+   		} text-align:justify;
+    text-justify:inter-word;
 	}
 }
 
 
-.faqpost-content, .post-content, .page-content{
+.faqpost-content, .page-content{
 	max-width: 45em; //ok content width
 	margin-top: 2em;
 }
@@ -166,9 +188,155 @@ header + .row{
 	}
 }
 
+.post-content{
 
-.post-content, .page-content{
-	font-size: 106% //from 17 to 18 for posts
+	font-weight: 400 !important;
+	font-family: "vollkornregular",serif !important;
+	font-size: 110%; 
+	
+	article{
+		position: relative;
+		margin: 2em auto 0;
+		width: 90%;
+		max-width: 32em; //ok content width
+		h1{
+			font-size: 1.8em;
+			font-weight: bold !important;
+			font-family: 'Open Sans Condensed', sans-serif; //"Open Sans", sans-serif !important;
+			margin-bottom:0
+		}
+		p{
+			line-height: 1.25em;
+			font-family: "vollkornitalic", serif !important;
+		}
+		p ~ *{
+			font-family: "vollkornregular",serif !important;
+		}
+		em, i {
+			font-style: normal;
+			font-family: "vollkornitalic", serif !important;
+		}	
+		a{
+			color: inherit; 
+			text-decoration: underline;
+			&:hover{
+				color: $anchor-font-color
+			}
+		}
+		blockquote{
+			margin: 0 0 0.75em;
+			margin-left: -1.5em;
+			padding: 0.1em 1em 0em 1.2em;
+			border-left: 0.3em solid #f8f8f8;
+			p{
+				color: #222;
+			}
+			p:before, p:after{
+				display: inline-block;
+				margin: 0;
+				padding: 0;
+				color: desaturate(lighten($spot-colorA, 30%), 30%);
+				font-size: 2em;
+				position: relative;
+				line-height: 0.2em;
+			}
+			p:before{
+				content: open-quote;
+				margin-right: 8px;
+			}
+			p:after{
+				content: close-quote;
+				margin-left: 4px;
+				top: 0.2em;
+			}
+		}
+		
+		$asideWidth: 195px; 
+		$asideMargin: 45px; //usable width = asideWidth - asideMargin
+
+		@mixin aside_pushleft(){
+			margin-left: -1 * $asideWidth;
+			text-align:center;
+		}
+
+		aside.author-box{
+			opacity: 0.5;
+			@include transition(opacity 0.3s ease-in-out);
+			&:hover{
+				opacity: 1;
+			}
+			position: fixed;
+			top: 152px; 
+			padding: 20px 0;
+			display: none;
+			font-size: 13px;
+			font-family: 'Open Sans', sans-serif !important;
+			width: $asideWidth - $asideMargin;
+			@media (min-width: 1240px) {
+				display: block;
+			}
+			@media (max-height: 600px) {
+				top: 100px; 
+			}
+			h5{
+				font-size:18px;
+				font-variant: small-caps;
+				font-family: 'Open Sans Condensed', sans-serif !important;
+			}
+			ul{
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				li:before{
+					display: inline-block;
+					background: #aaa;
+					width: 6px;
+					border-radius: 50%;
+					height: 6px;
+					content: " ";
+					top: -1px;
+					left: -3px;
+					position: relative;
+				}
+			}
+			@include aside_pushleft;
+		}
+	}
+
+	$realsmall: 540px;
+	@media (min-width: $realsmall) {
+		$lineheight: 153;
+		$firstParagraphIncrease: 1.09; //22 -> 25
+		font-size: 120%; 
+		article{
+			h1{
+				font-size: 2.2em;
+			}
+			width: 78%;
+			p{
+				text-align:justify;
+    			text-justify:inter-word;
+				font-size: $firstParagraphIncrease * 100%; //22 -> 25
+				line-height: $lineheight / ( $firstParagraphIncrease * 100) ; //keep vertical rhythm
+			}
+			p ~ *{
+				font-size: (1 / $firstParagraphIncrease) * 100%; //25 -> 22
+				line-height: $lineheight/100;
+			}
+			blockquote{
+				p:before, p:after{
+					display: none;
+				}
+				padding-bottom: 0.2em;
+				border-left-color: desaturate(lighten($spot-colorA, 30%), 20%);
+			}
+		}
+	}
+	@media (min-width: 1160px) {
+		font-size: 130%; //from 17 to 22
+	}
+
+	
 }
 
 

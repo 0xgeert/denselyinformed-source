@@ -10,13 +10,55 @@
 //
 
 
+@font-face {
+    font-family: 'vollkornbold';
+    src: url('../fonts/vollkorn-bold-webfont.eot');
+    src: url('../fonts/vollkorn-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/vollkorn-bold-webfont.woff') format('woff'),
+         url('../fonts/vollkorn-bold-webfont.ttf') format('truetype'),
+         url('../fonts/vollkorn-bold-webfont.svg#vollkornbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'vollkornitalic';
+    src: url('../fonts/vollkorn-italic-webfont.eot');
+    src: url('../fonts/vollkorn-italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/vollkorn-italic-webfont.woff') format('woff'),
+         url('../fonts/vollkorn-italic-webfont.ttf') format('truetype'),
+         url('../fonts/vollkorn-italic-webfont.svg#vollkornitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'vollkornregular';
+    src: url('../fonts/vollkorn-regular-webfont.eot');
+    src: url('../fonts/vollkorn-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/vollkorn-regular-webfont.woff') format('woff'),
+         url('../fonts/vollkorn-regular-webfont.ttf') format('truetype'),
+         url('../fonts/vollkorn-regular-webfont.svg#vollkornregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 // Heading font styles
 //
 
 
 // We use these to control header font styles
-$header-font-family:                   'Montserrat', sans-serif;
-$header-font-weight:                   400 ;
+$header-font-family:                   'vollkornbold', serif;
+$header-font-weight:                   400 !important;
 $header-font-style:                    normal ;
 $header-font-color:                    #222 ;
 $header-text-rendering:                optimizeLegibility ;
@@ -30,8 +72,8 @@ $small-font-size:                      60% ;
 $small-font-color:                     lighten($header-font-color, 30%) ;
 
 // We use these to style paragraphs
-$paragraph-font-family:                inherit ;
-$paragraph-font-weight:                normal ;
+$paragraph-font-family:                'Open Sans', sans-serif;
+$paragraph-font-weight:                400 ;
 $paragraph-font-size:                  1em ;
 $paragraph-line-height:                $base-line-height;
 $paragraph-margin-top:                 0.75em ;
@@ -48,7 +90,7 @@ $code-font-weight:                     normal ;
 
 // We use these to style anchors
 $anchor-text-decoration:               none ;
-$anchor-font-color:                    $primary-color ;
+$anchor-font-color:                    $primary-color !default;
 $anchor-font-color-hover:              darken($primary-color, 5%) ;
 
 // We use these to style the <hr> element
@@ -212,7 +254,7 @@ h1, h2{
 }
 
 h3{
-  color: #444;
+  color: #333;
 }
 
 h1 + h2, h1 + h3{
