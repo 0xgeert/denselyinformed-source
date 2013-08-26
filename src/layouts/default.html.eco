@@ -42,7 +42,7 @@
 	<% if @envIsDev(): %>
 		<%- @getBlock('styles').add(@cachebust(@site.styles)).toHTML() %>
 	<% else: %>
-	  	<%- @getBlock('styles').add(@cachebust(@site.stylesPacked)).toHTML() %>
+	  	<%- @getBlock('styles').add(@cachebust([@site.stylesPacked])).toHTML() %>
 	<% end %>
 
 </head>
@@ -59,7 +59,7 @@
 	          <ul class="right">
 	          	<% for document in @getCollection('dcoumentsInMainNav').toJSON(): %>
 	          	<li class="divider hide-for-small"></li>
-					<li typeof="sioc:Page" about="<%= document.url %>" class="<%= 'active'  if @document.url is document.url %>">
+					<li typeof="sioc:Page" about="<%= document.url %>" class="<%= 'active'  if @document.url is document.url || (document.url == '/pages/blog' && !@document.url.indexOf("/posts/")) %>">
 						<a href="<%= document.url %>" property="dc:title"><%= document.navtitle %></a>
 					</li>
 				<% end %>
@@ -92,7 +92,7 @@
 	<!-- Scripts -->
 
 	<% if @envIsDev(): %>
-		<%- @getBlock('scripts').add(@cachebust(@buildstep.scriptToPack_zepto_flattened)).toHTML() %>	
+		<%- @getBlock('scripts').add(@cachebust(@buildstep.scriptToPack_zepto_flattened),{defer:false,async:false}).toHTML() %>	
 	<% else: %>
 	  	<script>
 		  document.write('<script src=/scripts/'

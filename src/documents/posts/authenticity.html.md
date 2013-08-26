@@ -1,7 +1,9 @@
 ```
 title: Authenticity a Moving Target
 layout: post
-tags: ['nothing']
+tags: ['Natural Language Programming', 'Data Visualization', 'Saas']
+author: Geert-Jan Brits
+in: Tech & Culture Blog
 ```
 
 An evening in Athens

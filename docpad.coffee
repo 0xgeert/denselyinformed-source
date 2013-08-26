@@ -1,8 +1,8 @@
 scriptToPack_zepto =  [
 	"src/documents/scripts/modernizr.js",
 	"node_modules/foundation/js/vendor/zepto.js",
-	"node_modules/foundation/js/foundation/foundation.js",
-	"node_modules/foundation/js/foundation/foundation.topbar.js"
+	# "node_modules/foundation/js/foundation/foundation.js",
+	# "node_modules/foundation/js/foundation/foundation.topbar.js"
 ]
 
 scriptToPack_jquery = [
@@ -67,12 +67,14 @@ docpadConfig = {
 				"/styles/zurb-foundation.css",
 				"/styles/style.css",
 				"/styles/highlightjs-github.css"
+				# "/styles/medium.css"
 			]
 
 			stylesPacked: "/styles/combined.min.css"
 
 			# Scripts
 			scripts: [
+				# "/scripts/medium.js",
 				"/scripts/app.js"
 			]
 
@@ -117,13 +119,18 @@ docpadConfig = {
 			# TODO: change based on https://github.com/bevry/docpad/issues/592
 			return docpad.getConfig().env == "development" || docpad.getConfig().env == undefined
 
-
 		getAssetVersion: ->
 			return docpad.getConfig().assetVersion ;
 
 		cachebust: (assets) -> 
 			version =  @getAssetVersion();
 			require("lodash").map(assets, (asset) -> asset + "?" + version)
+
+
+		# Blog stuff
+		getPreparedPublishDate: ->
+			require("moment")(@document.date).format("MMMM Do, YYYY");
+
 
 	# =================================
 	# Collections

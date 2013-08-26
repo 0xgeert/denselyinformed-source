@@ -12,7 +12,6 @@
 
 ////////////
 //COMPONENTS
-
 $backCol: desaturate(adjust_hue(#13A3C7, 15deg), 40%);
 
 $backColDesat: desaturate($backCol, 15%);
@@ -27,39 +26,51 @@ h1,h2,h3,h4,h5,h6{
 
 ////////////
 // LAYOUT
-// 
-// 
-@include robust-word-wrap;
-
 body{
+	@include robust-word-wrap;
 	color: #333;
-}
+	#layout{
+		//makes sure body-height: 100% doesn't show vertical scrollbar when not needed
+		overflow: auto; 
+		background: #f6f6f6;
+	}
+	#main{
+		position: relative;
+	}
+	section{
+		margin-bottom: 1.5em;
+	}
 
-#layout{
-	//makes sure body-height: 100% doesn't show vertical scrollbar when not needed
-	overflow: auto; 
-	background: #F8F8F8;
-}
-
-#main{
-	position: relative;
-}
-section{
-	margin-bottom: 1.5em;
-}
-
-//bigger gutters on largish screens
-@media (min-width: 780px) {
-	.column, .columns{
-		padding-left: 1.875em;
-		padding-right: 1.875em;
+	//bigger gutters on largish screens
+	@media (min-width: 780px) {
+		.column, .columns{
+			padding-left: 1.875em;
+			padding-right: 1.875em;
+		}
 	}
 }
+// LAYOUT END //////////////
 
 
+///////////////////
+//TOP MENU 
+.top-bar-section ul li{
+	&.active>a, &.hover>a{
+		background: #eaeaea;
+	}
+}
+//menu items on expanded menu (small screen) get border
+.expanded .top-bar-section ul  a{
+	border-bottom: 1px solid #ddd;
+}
 //$fixedOnSmallScreen: true; //fix topmenu on small screen as well, defaults to false
 @include top-menu-fixed;
 
+// TOP MENU END //////////////
+
+
+////////////////
+//TOP SHADOW
 /* used together with mixin top-menu-shadow which shows shadow
 underneath topmenu. */
 .shadow{
@@ -67,19 +78,17 @@ underneath topmenu. */
 }
 @include top-menu-shadow;
 .shadow{ //overwrite default styling.
-	border: 0 none;
 	height: 3px; 
 	margin-top: 0;
 	background: $backCol; //$backColDesat;
-  	//@include box-shadow(0px 0px 6px #222);
+	border: 0 none;
+	@include box-shadow(none !important);
 }
+// TOP SHADOW END //////////////
 
-//menu items on expanded menu (small screen) get border
-.expanded .top-bar-section ul  a{
-	border-top: 1px solid #ddd;
-}
 
-//generic header (independent of content)
+///////////////
+//GENERIC HEADER (INDEP OF CONTENT)
 header{
 	padding: 1.5em 0;
 	background: $backCol;
@@ -107,7 +116,6 @@ header{
 			text-align: center
 		}
 	}
-	
 	
 	h1{
 		display: inline-block; 
@@ -143,10 +151,14 @@ header{
 	}
 	margin-bottom: 2em;
 }
-
 // @include to-white-hero;
 // @include moving-hero(-400px, 1s, 0.5s, 1s);
+// 
+// GENERIC HEADER END //////////////
 
+
+///////////////
+//GENERIC FOOTER
 #footer {
 	font-weight: 400 !important;
 	font-family: "Open Sans",sans-serif;
@@ -174,20 +186,18 @@ header{
     text-justify:inter-word;
 	}
 }
+/// GENERIC FOOTER END ////////////
 
 
+////////////////////////////
+//PAGE SPECIFICS
 .faqpost-content, .page-content{
 	max-width: 45em; //ok content width
 	margin-top: 2em;
 }
 
-//reset margin-top if header specified.
-header + .row{
-	> .page-content{
-		margin-top: 0em;
-	}
-}
-
+///////////////////////////
+//BLOG
 .post-content{
 
 	font-weight: 400 !important;
@@ -260,10 +270,10 @@ header + .row{
 		}
 
 		aside.author-box{
-			opacity: 0.5;
-			@include transition(opacity 0.3s ease-in-out);
+			opacity: 1;
+			@include transition(opacity 1.2s ease-in-out 0.5s);
 			&:hover{
-				opacity: 1;
+				opacity: 1 !important;
 			}
 			position: fixed;
 			top: 152px; 
@@ -274,8 +284,14 @@ header + .row{
 			width: $asideWidth - $asideMargin;
 			@media (min-width: 1240px) {
 				display: block;
+				&.js_unobtrusive{ //when large screen, make aside less obtrusive (on scroll)
+					opacity: 0.3;
+				}
+				&.js_unobtrusive_defer{
+					@include transition(opacity 0.25s ease-in-out);
+				}					
 			}
-			@media (max-height: 600px) {
+			@media (max-height: 640px) {
 				top: 100px; 
 			}
 			h5{
